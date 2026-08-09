@@ -1,0 +1,28 @@
+## Goal
+
+Build a modern automation platform that:
+
+- supports multiple products
+- supports API/UI/Hybrid E2E
+- supports Azure Auth and Auth0
+- minimizes dependency on Playwright
+- is easy to extend
+- follows SOLID and Clean Architecture
+- uses modern TypeScript
+
+## Non Goals
+
+- Framework tied to Playwright
+- Cypress-like custom commands
+- Huge BasePage
+- God Objects
+
+## Architecture Principles
+
+1. Composition over inheritance
+2. Ports & Adapters
+3. Vertical Slice Architecture
+4. Dependency Injection
+5. Strong typing
+6. Testability
+7. Small public API

@@ -1,0 +1,9 @@
+{
+  "name": "@qa/adapters-playwright",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

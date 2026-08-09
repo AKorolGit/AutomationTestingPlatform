@@ -1,0 +1,29 @@
+{
+  "name": "automation-testing-platform",
+  "version": "1.0.0",
+  "description": "Build a modern automation testing platform",
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "run-AD-login-test": "npx playwright test tests/e2e-azure/login.spec.ts --headed",
+    "run-EO-api-test": "npx playwright test tests/e2e-azure/sales-orders.spec.ts --headed",
+    "run-ui-mode": "npx playwright test --ui",
+    "run-debug-mode": "npx playwright test --debug"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@qa/adapters-playwright": "*",
+    "@qa/core": "*",
+    "@qa/domain-azure": "*",
+    "@types/node": "^26.1.2",
+    "dotenv": "^17.4.2",
+    "tsx": "^4.23.11",
+    "typescript": "^7.0.2"
+  }
+}
