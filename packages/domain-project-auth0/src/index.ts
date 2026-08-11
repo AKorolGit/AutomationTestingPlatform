@@ -11,3 +11,7 @@ export * from './features/login/credentials/SupplyChainAssignment';
 
 export * from './features/login/dtos/Auth0TokenResponseDto';
 
+export * from './features/suppliers/SuppliersApi';
+export * from './features/suppliers/SuppliersEndpoints';
+export * from './features/suppliers/dtos/SupplierDto';
+

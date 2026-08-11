@@ -3,9 +3,10 @@ import * as fs from 'fs';
 import { PlaywrightUIDriver, PlaywrightApiClient } from '@qa/adapters-playwright';
 import { AzureWorkflowFactory, SalesOrdersApi, LoginPage } from '@qa/domain-azure';
 import { AzureAuthWorkflow, CompaniesPage, NavigationMenu, SalesOrdersPage} from '@qa/domain-azure';
-import { IApiClient, IUIDriver } from '@qa/core';
+import { getRequiredEnv, IApiClient, IUIDriver } from '@qa/core';
 import { Auth0Roles, Auth0WorkflowFactory, Scopes } from '@qa/domain-auth0';
 import type { Auth0AuthWorkflow, Auth0Role, Scope } from '@qa/domain-auth0';
+import { SuppliersApi } from '@qa/domain-auth0';
 
 type MyOptions = {
   auth0Persona: { role: Auth0Role; scope: Scope };
@@ -22,13 +23,20 @@ type MyFixtures = {
   companiesPage: CompaniesPage;
   auth0AuthWorkflow: Auth0AuthWorkflow;
   auth0ApiClient: IApiClient;
+  suppliersApi: SuppliersApi;
 };
 
 const apiTokenFile = 'playwright/.auth/azure-api-token.json';
 
-function createApiFixture<T>(ApiClass: new (client: IApiClient) => T) {
+function createAzureApiFixture<T>(ApiClass: new (client: IApiClient) => T) {
   return async ({ azureApiClient }: { azureApiClient: IApiClient }, use: (r: T) => Promise<void>) => {
     await use(new ApiClass(azureApiClient));
+  };
+}
+
+function createAuth0ApiFixture<T>(ApiClass: new (client: IApiClient) => T) {
+  return async ({ auth0ApiClient }: { auth0ApiClient: IApiClient }, use: (r: T) => Promise<void>) => {
+    await use(new ApiClass(auth0ApiClient));
   };
 }
 
@@ -62,10 +70,11 @@ export const test = base.extend<MyFixtures & MyOptions>({
     await apiContext.dispose();
   },
 
-  salesOrdersApi: createApiFixture(SalesOrdersApi),
+  salesOrdersApi: createAzureApiFixture(SalesOrdersApi),
   navigationMenu: createPageFixture(NavigationMenu),
   salesOrdersPage: createPageFixture(SalesOrdersPage),
   companiesPage: createPageFixture(CompaniesPage),
+  suppliersApi: createAuth0ApiFixture(SuppliersApi),
 
   auth0AuthWorkflow: async ({ uiDriver }, use) => {
     await use(Auth0WorkflowFactory.create(uiDriver));
@@ -78,12 +87,15 @@ export const test = base.extend<MyFixtures & MyOptions>({
     const tokenFile = `playwright/.auth/auth0-api-${role}-${scope}.json`;
     const { access_token, assignment } = JSON.parse(fs.readFileSync(tokenFile, 'utf-8'));
 
+    const headers = {
+      Authorization: `Bearer ${access_token}`,
+      'x-supply-chain-user-assignment': JSON.stringify(assignment),
+    };
+    console.log('context headers:', headers);
+
     const apiContext = await playwrightRequest.newContext({
-      baseURL: process.env.AUTH0_API_BASE_URL,
-      extraHTTPHeaders: {
-        Authorization: `Bearer ${access_token}`,
-        'x-supply-chain-user-assignment': JSON.stringify(assignment),
-      },
+      baseURL: getRequiredEnv('AUTH0_API_BASE_URL'),
+      extraHTTPHeaders: headers,
     });
 
     await use(new PlaywrightApiClient(apiContext));
