@@ -32,4 +32,16 @@ export class PlaywrightUIDriver implements IUIDriver{
             return false;
         }
     }
+
+    async getAllLinks(containerSelector: string): Promise<{ text: string; href: string }[]> {
+        const elements = await this.page.locator(`${containerSelector} a[href]`).all();
+        const results: { text: string; href: string }[] = [];
+
+        for (const el of elements) {
+            const href = await el.getAttribute('href');
+            const text = (await el.textContent())?.trim() ?? '';
+            if (href) results.push({ text, href });
+        }
+        return results;
+    }
 }

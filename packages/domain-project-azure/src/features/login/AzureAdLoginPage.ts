@@ -1,5 +1,6 @@
 import { IUIDriver } from "@qa/core";
-import { azureAuthSelectors } from "./LoginPageSelectors";
+import { azureAuthSelectors } from "@qa/domain-azure";
+
 
 export class AzureAdLoginPage{
     constructor(private readonly driver: IUIDriver){}

@@ -1,5 +1,5 @@
 import { getRequiredEnv, IApiClient } from "@qa/core";
-import { AzureTokenResponseDto } from "./AzureTokenResponseDto";
+import { AzureTokenResponseDto } from "@qa/domain-azure";
 
 export class AzureAuthApi {
     constructor(private readonly apiClient: IApiClient) {}

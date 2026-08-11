@@ -1,6 +1,6 @@
 import { IUIDriver } from "@qa/core";
-import { AzureAdLoginPage } from "./AzureAdLoginPage";
-import { AzureAuthWorkflow } from "./AzureAuthWorkflow";
+import { AzureAdLoginPage } from "@qa/domain-azure";
+import { AzureAuthWorkflow } from "@qa/domain-azure";
 import { LoginPage } from "./LoginPage";
 
 export class AzureWorkflowFactory {

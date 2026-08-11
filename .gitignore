@@ -1,9 +1,10 @@
 #config
 .env
+auth0-credentials.json
 
 playwright/.auth/
 
-# dependencies
+# dependencies  
 node_modules/
 
 # playwright artifacts

@@ -5,4 +5,5 @@ export interface IUIDriver {
     isVisible(selector: string): Promise<boolean>;
     waitForElement(selector: string, timeoutMs?: number): Promise<void>;
     isElementPresentWithin(selector: string, timeout?: number): Promise<boolean>;
+    getAllLinks(containerSelector: string): Promise<{ text: string; href: string }[]>;
 }
