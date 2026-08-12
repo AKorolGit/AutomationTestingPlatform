@@ -91,7 +91,6 @@ export const test = base.extend<MyFixtures & MyOptions>({
       Authorization: `Bearer ${access_token}`,
       'x-supply-chain-user-assignment': JSON.stringify(assignment),
     };
-    console.log('context headers:', headers);
 
     const apiContext = await playwrightRequest.newContext({
       baseURL: getRequiredEnv('AUTH0_API_BASE_URL'),

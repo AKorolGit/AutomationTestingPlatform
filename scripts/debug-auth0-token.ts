@@ -12,7 +12,6 @@ async function main() {
   const creds = getAuth0Credentials(Scopes.Scope2, Auth0Roles.BoAdmin);
   const tokenResponse = await authApi.loginWithPassword(creds.auth0_username, creds.auth0_password);
 
-  console.log(tokenResponse);
   await apiContext.dispose();
 }
 

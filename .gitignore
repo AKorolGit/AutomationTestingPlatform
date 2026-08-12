@@ -14,3 +14,8 @@ blob-report/
 
 # OS
 .DS_Store
+
+# reports
+playwright-report/
+test-results/
+blob-report/

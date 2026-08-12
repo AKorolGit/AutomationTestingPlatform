@@ -4,6 +4,10 @@ import 'dotenv/config';
 export default defineConfig({
   testDir: './tests',
   timeout: 30_000,
+  reporter: [
+    ['html', { open: 'never', outputFolder: 'playwright-report' }],
+    ['list'],
+  ],
   projects: [
     { name: 'setup-ui', testMatch: /azure\.ui\.setup\.ts/, use: { baseURL: process.env.AZURE_APP_BASE_URL } },
     { name: 'setup-api', testMatch: /azure\.api\.setup\.ts/ },

@@ -12,7 +12,8 @@
     "run-AD-login-test": "npx playwright test tests/e2e-azure/login.spec.ts --headed",
     "run-EO-api-test": "npx playwright test tests/e2e-azure/sales-orders.spec.ts --headed",
     "run-ui-mode": "npx playwright test --ui",
-    "run-debug-mode": "npx playwright test --debug"
+    "run-debug-mode": "npx playwright test --debug",
+    "report open": "npx playwright show-report"
   },
   "keywords": [],
   "author": "",

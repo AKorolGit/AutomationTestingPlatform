@@ -13,7 +13,6 @@ async function main() {
     process.env.AZURE_TEST_PASSWORD ?? ''
   );
 
-  console.log(tokenResponse);
   await apiContext.dispose();
 }
 

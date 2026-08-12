@@ -20,8 +20,6 @@ export class PlaywrightApiClient implements IApiClient {
   }
 
   private async parseResponse<T>(response: APIResponse, url: string): Promise<T> {
-    console.log('status:', response.status());
-    console.log('final URL:', response.url());
     if (!response.ok()) {
         const body = await response.text();
         throw new ApiError(response.status(), url, body);
