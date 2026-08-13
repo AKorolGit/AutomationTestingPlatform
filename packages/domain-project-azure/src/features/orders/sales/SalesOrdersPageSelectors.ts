@@ -1,3 +1,3 @@
 export const salesOrdersPageSelectors = {
-  pageContainer: '[TODO-реальний-селектор]',  // потрібен HTML цієї сторінки
+  pageContainer: '[TODO-реальний-селектор]',
 } as const;

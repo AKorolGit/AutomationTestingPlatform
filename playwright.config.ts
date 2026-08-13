@@ -26,10 +26,10 @@ export default defineConfig({
       dependencies: ['setup-ui'],
     },
     {
-      name: 'azure-mixed',
+      name: 'mixed',
       testMatch: /mixed\/.*\.spec\.ts/,
       use: { ...devices['Desktop Chrome'], baseURL: process.env.AZURE_APP_BASE_URL, storageState: 'playwright/.auth/azure-ui.json' },
-      dependencies: ['setup-ui', 'setup-api'],
+      dependencies: ['setup-ui', 'setup-api', 'setup-auth0', 'setup-auth0-api'],
     },
     {
       name: 'auth0-ui',

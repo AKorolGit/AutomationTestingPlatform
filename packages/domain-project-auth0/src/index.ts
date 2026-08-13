@@ -15,3 +15,10 @@ export * from './features/suppliers/SuppliersApi';
 export * from './features/suppliers/SuppliersEndpoints';
 export * from './features/suppliers/dtos/SupplierDto';
 
+export * from './features/requests/dtos/CreateRequestDto';
+export * from './features/requests/builders/RequestConsumptionBuilder';
+export * from './features/requests/builders/CreateRequestBuilder';
+export * from './features/requests/RequestsApi';
+export * from './features/requests/RequestsEndpoints';
+export * from './features/requests/RequestsPage';
+export * from './features/requests/RequestsPageSelectors';

@@ -11,6 +11,7 @@
     "build": "npm run build --workspaces --if-present",
     "run-AD-login-test": "npx playwright test tests/e2e-azure/login.spec.ts --headed",
     "run-EO-api-test": "npx playwright test tests/e2e-azure/sales-orders.spec.ts --headed",
+    "run-mixed-test": "npx playwright test tests/mixed/brand-owner-request-flow.spec.ts --headed",
     "run-ui-mode": "npx playwright test --ui",
     "run-debug-mode": "npx playwright test --debug",
     "report open": "npx playwright show-report"

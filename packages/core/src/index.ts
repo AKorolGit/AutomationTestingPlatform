@@ -4,3 +4,4 @@ export * from './ports/ApiError';
 export * from './ports/IAuthWorkflow'
 
 export * from './config/env';
+export * from './random';

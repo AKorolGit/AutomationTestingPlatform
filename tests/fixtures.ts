@@ -1,11 +1,11 @@
-import { test as base, request as playwrightRequest } from '@playwright/test';
+import { test as base, BrowserContext, Page, request as playwrightRequest } from '@playwright/test';
 import * as fs from 'fs';
 import { PlaywrightUIDriver, PlaywrightApiClient } from '@qa/adapters-playwright';
-import { AzureWorkflowFactory, SalesOrdersApi, LoginPage } from '@qa/domain-azure';
+import { AzureWorkflowFactory, SalesOrdersApi, LoginPage, QuoteRequestsApi, QuoteRequestDetailsPage } from '@qa/domain-azure';
 import { AzureAuthWorkflow, CompaniesPage, NavigationMenu, SalesOrdersPage} from '@qa/domain-azure';
 import { getRequiredEnv, IApiClient, IUIDriver } from '@qa/core';
-import { Auth0Roles, Auth0WorkflowFactory, Scopes } from '@qa/domain-auth0';
-import type { Auth0AuthWorkflow, Auth0Role, Scope } from '@qa/domain-auth0';
+import { Auth0Roles, Auth0WorkflowFactory, getAuth0Credentials, RequestsApi, RequestsPage, Scopes } from '@qa/domain-auth0';
+import type { Auth0AuthWorkflow, Auth0Role, Auth0UserCredentials, Scope } from '@qa/domain-auth0';
 import { SuppliersApi } from '@qa/domain-auth0';
 
 type MyOptions = {
@@ -24,6 +24,11 @@ type MyFixtures = {
   auth0AuthWorkflow: Auth0AuthWorkflow;
   auth0ApiClient: IApiClient;
   suppliersApi: SuppliersApi;
+  requestsApi: RequestsApi;
+  quoteRequestsApi: QuoteRequestsApi;
+  openAuth0Page: (persona: { role: Auth0Role; scope: Scope }) => Promise<{ page: Page; requestsPage: RequestsPage }>;
+  quoteRequestDetailsPage: QuoteRequestDetailsPage;
+  auth0Credentials: Auth0UserCredentials;
 };
 
 const apiTokenFile = 'playwright/.auth/azure-api-token.json';
@@ -63,7 +68,7 @@ export const test = base.extend<MyFixtures & MyOptions>({
       baseURL: process.env.AZURE_API_BASE_URL,
       extraHTTPHeaders: {
         Authorization: `Bearer ${access_token}`,
-        Tenant: process.env.AZURE_TENANT_ID ?? '',
+        Tenant: getRequiredEnv('AZURE_TENANT_ID'),
       },
     });
     await use(new PlaywrightApiClient(apiContext));
@@ -99,6 +104,30 @@ export const test = base.extend<MyFixtures & MyOptions>({
 
     await use(new PlaywrightApiClient(apiContext));
     await apiContext.dispose();
+  },
+
+  requestsApi: createAuth0ApiFixture(RequestsApi),
+  quoteRequestsApi: createAzureApiFixture(QuoteRequestsApi),
+  quoteRequestDetailsPage: createPageFixture(QuoteRequestDetailsPage),
+
+  openAuth0Page: async ({ browser }, use) => {
+    const openedContexts: BrowserContext[] = [];
+    const factory = async (persona: { role: Auth0Role; scope: Scope }) => {
+      const context = await browser.newContext({
+        storageState: `playwright/.auth/auth0-${persona.role}-${persona.scope}.json`,
+        baseURL: getRequiredEnv('AUTH0_APP_BASE_URL'),
+      });
+      openedContexts.push(context);
+      const page = await context.newPage();
+      return { page, requestsPage: new RequestsPage(new PlaywrightUIDriver(page)) };
+    };
+    await use(factory);
+    for (const ctx of openedContexts) await ctx.close();
+  },
+
+  auth0Credentials: async ({ auth0Persona }, use) => {
+    const creds = getAuth0Credentials(auth0Persona.scope, auth0Persona.role);
+    await use(creds);
   },
 });
 

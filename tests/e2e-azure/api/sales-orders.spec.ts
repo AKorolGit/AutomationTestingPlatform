@@ -14,13 +14,13 @@ test.describe('Sales Orders API', () => {
     expect(response.dataList.length).toBeLessThanOrEqual(5);
   });
 
-//   test('can fetch a single order by id', async ({ salesOrdersApi }) => {
-//     const list = await salesOrdersApi.getSalesOrders(new SalesOrdersRequestBuilder().withSize(1).build());
-//     const firstId = Number(list.dataList[0].id);
+  test('can fetch a single order by id', async ({ salesOrdersApi }) => {
+    const list = await salesOrdersApi.getSalesOrders(new SalesOrdersRequestBuilder().withSize(1).build());
+    const firstId = Number(list.dataList[0].id);
 
-//     const order = await salesOrdersApi.getSalesOrder(firstId);
-//     expect(order.id).toBe(String(firstId));
-//   });
+    const order = await salesOrdersApi.getSalesOrder(firstId);
+    expect(order.id).toBe(String(firstId));
+  });
 
   test('throws ApiError for a non-existent id', async ({ salesOrdersApi }) => {
     await expect(salesOrdersApi.getSalesOrder(999999999)).rejects.toThrow();

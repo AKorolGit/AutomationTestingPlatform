@@ -1,0 +1,1 @@
+export const requestsEndpoints = { create: '/api/requests' } as const;

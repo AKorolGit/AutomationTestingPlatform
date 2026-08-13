@@ -15,4 +15,14 @@ export class LoginPage{
     async clickSubmitButton(): Promise<void> {
         await this.driver.click(azureAuthSelectors.submitButton);
     }
+
+    async ensureAppLoaded(): Promise<void> {
+        const splashShown = await this.driver.isElementPresentWithin(
+            azureAuthSelectors.loginButton,
+            3000
+        );
+        if (splashShown) {
+            await this.clickLoginButton();
+        }
+    }
 }

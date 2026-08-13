@@ -20,13 +20,17 @@ export class PlaywrightUIDriver implements IUIDriver{
         return await this.page.locator(selector).isVisible();
     }
 
+    async isHidden(selector: string): Promise<boolean> {
+        return await this.page.locator(selector).isHidden();
+    }
+
     async waitForElement(selector: string, timeout?: number): Promise<void> {
         await this.page.locator(selector).waitFor({ timeout });
     }
 
-    async isElementPresentWithin(selector: string, timeout?: number): Promise<boolean> {
+    async isElementPresentWithin(selector: string, timeoutMs?: number): Promise<boolean> {
         try {
-            await this.page.locator(selector).waitFor({ timeout });
+            await this.page.locator(selector).waitFor({ timeout: timeoutMs ?? 3000, state: 'visible' });
             return true;
         } catch {
             return false;
