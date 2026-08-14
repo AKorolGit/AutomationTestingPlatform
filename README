@@ -7,7 +7,7 @@ Build a modern automation platform that:
 - supports Azure Auth and Auth0
 - minimizes dependency on Playwright
 - is easy to extend
-- follows SOLID and Clean Architecture
+- follows SOLID and Hexagonal Architecture (Ports & Adapters)
 - uses modern TypeScript
 
 ## Non Goals
@@ -24,5 +24,4 @@ Build a modern automation platform that:
 3. Vertical Slice Architecture
 4. Dependency Injection
 5. Strong typing
-6. Testability
-7. Small public API
+6. Small public API
