@@ -48,4 +48,8 @@ export class PlaywrightUIDriver implements IUIDriver{
         }
         return results;
     }
+
+    async clickByRole(role: string, name: string): Promise<void> {
+        await this.page.getByRole(role as any, { name }).click();
+    }
 }

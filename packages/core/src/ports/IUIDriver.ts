@@ -7,4 +7,5 @@ export interface IUIDriver {
     waitForElement(selector: string, timeoutMs?: number): Promise<void>;
     isElementPresentWithin(selector: string, timeout?: number): Promise<boolean>;
     getAllLinks(containerSelector: string): Promise<{ text: string; href: string }[]>;
+    clickByRole(role: string, name: string): Promise<void>;
 }
